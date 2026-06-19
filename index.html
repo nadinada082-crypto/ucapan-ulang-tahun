@@ -192,7 +192,62 @@
             <button class="popup-btn" id="popup-btn">Terima Kasih, Sayang! 💕</button>
         </div>
     </div>
+    <!-- 🎵 Floating Music Player -->
+    <div class="music-player" id="music-player">
+        <audio id="bg-audio" loop preload="none">
+            <source src="https://musik.groovite.id/file/MusikGS/1777016194-backstreet_boys_-_shape_of_my_heart__official_hd_video___mp3cut.net_.mp3" type="audio/mpeg" />
+        </audio>
+        <div class="music-vinyl" id="music-vinyl">
+            <span class="music-note">🎵</span>
+        </div>
+        <div class="music-info">
+            <div class="music-title">Shape of My Heart</div>
+            <div class="music-artist">Backstreet Boys</div>
+            <div class="music-progress-wrap">
+                <div class="music-progress-bar">
+                    <div class="music-progress-fill" id="music-progress-fill"></div>
+                </div>
+                <div class="music-time" id="music-time">0:00</div>
+            </div>
+        </div>
+        <button class="music-btn" id="music-btn" aria-label="Play/Pause">
+            <span id="music-icon">▶</span>
+        </button>
+        <button class="music-close" id="music-close" aria-label="Tutup player">✕</button>
+    </div>
+    <!-- Mini toggle when player is hidden -->
+    <button class="music-toggle" id="music-toggle" aria-label="Buka music player">🎵</button>
+
     <script src="script.js"></script>
+    <script>
+        // Popup button initialization (inline for reliability)
+        document.addEventListener('DOMContentLoaded', function() {
+            const overlay = document.getElementById('popup-overlay');
+            const btn = document.getElementById('popup-btn');
+            const audio = document.getElementById('bg-audio');
+            const icon = document.getElementById('music-icon');
+            const vinyl = document.getElementById('music-vinyl');
+            
+            if (btn) {
+                btn.onclick = function() {
+                    overlay.classList.add('hidden');
+                    // Autoplay music when button is clicked
+                    if (audio) {
+                        audio.play().catch(err => console.log('Autoplay blocked:', err));
+                        if (icon) icon.textContent = "⏸";
+                        if (vinyl) vinyl.classList.add('spinning');
+                    }
+                };
+            }
+            if (overlay) {
+                overlay.onclick = function(e) {
+                    if (e.target === overlay) {
+                        overlay.classList.add('hidden');
+                    }
+                };
+            }
+        });
+    </script>
 </body>
 
 </html>

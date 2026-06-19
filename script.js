@@ -190,7 +190,7 @@ if (nameEl) nameEl.textContent = PARTNER_NAME;
 })();
 
 // ── 7. Popup on Load ─────────────────────────────────
-(function initPopup() {
+setTimeout(() => {
     const overlay    = document.getElementById("popup-overlay");
     const btn        = document.getElementById("popup-btn");
     const confettiEl = document.getElementById("popup-confetti");
@@ -208,13 +208,21 @@ if (nameEl) nameEl.textContent = PARTNER_NAME;
       opacity: ${Math.random() * .5 + .3};
       animation: floatUp ${Math.random() * 3 + 2}s ease-in-out infinite;
       animation-delay: ${Math.random() * 3}s;
+      pointer-events: none;
     `;
         if (confettiEl) confettiEl.appendChild(span);
     }
-    btn.addEventListener("click", () => {
+    // Close button click handler
+    btn.onclick = function() {
         overlay.classList.add("hidden");
-    });
-})();
+    };
+    // Also close on overlay click (outside card)
+    overlay.onclick = function(e) {
+        if (e.target === overlay) {
+            overlay.classList.add("hidden");
+        }
+    };
+}, 100);
 
 // ── 8. Celebration (fires on birthday) ───────────────
 function launchCelebration() {
@@ -249,5 +257,77 @@ function launchCelebration() {
             }
         });
     };
-    window.addEventListener("scroll", onScroll, { passive: true });
+// ── 10. Music Player ─────────────────────────────────
+(function initMusicPlayer() {
+    const audio       = document.getElementById("bg-audio");
+    const btn         = document.getElementById("music-btn");
+    const icon        = document.getElementById("music-icon");
+    const vinyl       = document.getElementById("music-vinyl");
+    const player      = document.getElementById("music-player");
+    const closeBtn    = document.getElementById("music-close");
+    const toggleBtn   = document.getElementById("music-toggle");
+    const progressFill= document.getElementById("music-progress-fill");
+    const timeEl      = document.getElementById("music-time");
+    const progressBar = document.querySelector(".music-progress-bar");
+
+    if (!audio || !btn) return;
+
+    let isPlaying = false;
+
+    function formatTime(sec) {
+        const m = Math.floor(sec / 60);
+        const s = Math.floor(sec % 60);
+        return `${m}:${String(s).padStart(2, "0")}`;
+    }
+
+    function setPlaying(play) {
+        isPlaying = play;
+        if (play) {
+            audio.play();
+            icon.textContent = "⏸";
+            vinyl.classList.add("spinning");
+        } else {
+            audio.pause();
+            icon.textContent = "▶";
+            vinyl.classList.remove("spinning");
+        }
+    }
+
+    // Auto-play on first user interaction
+    btn.addEventListener("click", () => setPlaying(!isPlaying));
+
+    // Progress bar
+    audio.addEventListener("timeupdate", () => {
+        if (!audio.duration) return;
+        const pct = (audio.currentTime / audio.duration) * 100;
+        progressFill.style.width = pct + "%";
+        timeEl.textContent = formatTime(audio.currentTime);
+    });
+
+    // Click to seek
+    progressBar.addEventListener("click", (e) => {
+        if (!audio.duration) return;
+        const rect = progressBar.getBoundingClientRect();
+        const pct  = (e.clientX - rect.left) / rect.width;
+        audio.currentTime = pct * audio.duration;
+    });
+
+    // Close / mini toggle
+    closeBtn.addEventListener("click", () => {
+        player.classList.add("hidden");
+        toggleBtn.classList.add("visible");
+    });
+
+    toggleBtn.addEventListener("click", () => {
+        player.classList.remove("hidden");
+        toggleBtn.classList.remove("visible");
+    });
+
+    // Auto-play after popup is dismissed (user gesture)
+    const popupBtn = document.getElementById("popup-btn");
+    if (popupBtn) {
+        popupBtn.addEventListener("click", () => {
+            setTimeout(() => setPlaying(true), 500);
+        });
+    }
 })();
