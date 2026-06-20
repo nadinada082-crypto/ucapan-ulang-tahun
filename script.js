@@ -14,6 +14,74 @@ const PARTNER_NAME = "Sayangku 💖";
  */
 const BIRTHDAY_DATE = "2026-07-20T00:00:00";
 // ─────────────────────────────────────────────────────
+
+// ── 0. Scroll Lock on Page Load ──────────────────────
+(function initScrollLock() {
+    // Function to lock scroll
+    function lockScroll() {
+        document.documentElement.classList.add("scroll-locked");
+        document.body.classList.add("scroll-locked");
+        document.documentElement.style.overflow = "hidden";
+        document.body.style.overflow = "hidden";
+        document.documentElement.style.height = "100vh";
+        document.body.style.height = "100vh";
+        document.documentElement.scrollTop = 0;
+        document.body.scrollTop = 0;
+        window.scrollTo(0, 0);
+    }
+    
+    // Function to unlock scroll
+    function unlockScroll() {
+        document.documentElement.classList.remove("scroll-locked");
+        document.body.classList.remove("scroll-locked");
+        document.documentElement.style.overflow = "";
+        document.body.style.overflow = "";
+        document.documentElement.style.height = "";
+        document.body.style.height = "";
+        document.documentElement.style.position = "";
+        document.body.style.position = "";
+    }
+    
+    // Lock scroll immediately on page load
+    lockScroll();
+    
+    const heroBtn = document.getElementById("hero-btn");
+    
+    // Prevent scroll with wheel and arrow keys
+    function preventScroll(e) {
+        if (document.body.classList.contains("scroll-locked")) {
+            e.preventDefault();
+        }
+    }
+    
+    document.addEventListener("wheel", preventScroll, { passive: false });
+    document.addEventListener("touchmove", preventScroll, { passive: false });
+    document.addEventListener("keydown", (e) => {
+        if (document.body.classList.contains("scroll-locked")) {
+            if (e.key === "ArrowUp" || e.key === "ArrowDown" || e.key === " ") {
+                e.preventDefault();
+            }
+        }
+    });
+    
+    // ONLY unlock scroll when hero button "Buka Kejutan" is clicked
+    if (heroBtn) {
+        heroBtn.addEventListener("click", () => {
+            unlockScroll();
+            document.removeEventListener("wheel", preventScroll);
+            document.removeEventListener("touchmove", preventScroll);
+            // Smooth scroll to profile section
+            setTimeout(() => {
+                const profileSection = document.getElementById("profile");
+                if (profileSection) {
+                    profileSection.scrollIntoView({ behavior: "smooth" });
+                }
+            }, 100);
+        });
+    }
+})();
+
+// ─────────────────────────────────────────────────────
 // ── 1. Inject partner name ───────────────────────────
 const nameEl = document.getElementById("partner-name");
 if (nameEl) nameEl.textContent = PARTNER_NAME;
@@ -123,38 +191,91 @@ if (nameEl) nameEl.textContent = PARTNER_NAME;
     update();
 })();
 
-// ── 5. Gallery Lightbox ───────────────────────────────
+// ── 5. Gallery Lightbox with Keyboard Navigation ───────────────────────────────
 (function initGallery() {
     const items     = document.querySelectorAll(".gallery-item");
     const lightbox  = document.getElementById("lightbox");
     const lbImg     = document.getElementById("lightbox-img");
     const lbCaption = document.getElementById("lightbox-caption");
+    const lbCounter = document.getElementById("lightbox-counter");
     const lbOverlay = document.getElementById("lightbox-overlay");
     const lbClose   = document.getElementById("lightbox-close");
     if (!lightbox) return;
-    function open(imgSrc, caption) {
-        lbImg.src = imgSrc;
-        lbCaption.textContent = caption;
-        lightbox.classList.add("open");
-        document.body.style.overflow = "hidden";
+    
+    let currentIndex = -1;
+    const galleryItems = Array.from(items);
+    
+    function updateCounter() {
+        if (lbCounter) {
+            lbCounter.textContent = `${currentIndex + 1} / ${galleryItems.length}`;
+        }
     }
+    
+    function open(index) {
+        currentIndex = index;
+        const item = galleryItems[index];
+        const img = item.querySelector("img");
+        const caption = item.querySelector(".gallery-caption");
+        if (img) {
+            lbImg.src = img.src;
+            lbCaption.textContent = caption ? caption.textContent : "";
+            updateCounter();
+            lightbox.classList.add("open");
+            document.body.style.overflow = "hidden";
+        }
+    }
+    
     function close() {
         lightbox.classList.remove("open");
         document.body.style.overflow = "";
-        // Clear src slightly delayed to avoid flash
+        currentIndex = -1;
         setTimeout(() => { lbImg.src = ""; }, 350);
     }
-    items.forEach((item) => {
+    
+    function navigate(direction) {
+        if (currentIndex === -1) return;
+        let newIndex = currentIndex + direction;
+        
+        // Loop around
+        if (newIndex < 0) newIndex = galleryItems.length - 1;
+        if (newIndex >= galleryItems.length) newIndex = 0;
+        
+        open(newIndex);
+    }
+    
+    items.forEach((item, index) => {
         item.addEventListener("click", () => {
-            const img     = item.querySelector("img");
-            const caption = item.querySelector(".gallery-caption");
-            if (img) open(img.src, caption ? caption.textContent : "");
+            open(index);
         });
     });
+    
     lbOverlay?.addEventListener("click", close);
     lbClose?.addEventListener("click", close);
+    
     document.addEventListener("keydown", (e) => {
-        if (e.key === "Escape") close();
+        if (!lightbox.classList.contains("open")) return;
+        
+        switch(e.key) {
+            case "Escape":
+                close();
+                break;
+            case "ArrowLeft":
+                e.preventDefault();
+                navigate(-1);
+                break;
+            case "ArrowRight":
+                e.preventDefault();
+                navigate(1);
+                break;
+            case "Home":
+                e.preventDefault();
+                open(0);
+                break;
+            case "End":
+                e.preventDefault();
+                open(galleryItems.length - 1);
+                break;
+        }
     });
 })();
 
@@ -165,6 +286,7 @@ if (nameEl) nameEl.textContent = PARTNER_NAME;
         ".letter-section",
         ".gallery-section",
         ".wishes-section",
+        ".timeline-section",
         ".countdown-card",
         ".gallery-item",
         ".wish-card",
@@ -363,3 +485,58 @@ function launchCelebration() {
     // Initial UI update
     updateUI();
 })();
+
+// ── 11. Social Sharing Buttons ───────────────────────────────
+(function initSocialSharing() {
+    const shareWhatsApp = document.getElementById("share-whatsapp");
+    const shareInstagram = document.getElementById("share-instagram");
+    
+    if (!shareWhatsApp && !shareInstagram) return;
+    
+    const pageUrl = window.location.href;
+    const shareText = "Ayo rayakan ulang tahun sayang ku! 🎂💕";
+    
+    // WhatsApp Share
+    if (shareWhatsApp) {
+        shareWhatsApp.addEventListener("click", () => {
+            const whatsappUrl = `https://wa.me/?text=${encodeURIComponent(shareText + "\n" + pageUrl)}`;
+            window.open(whatsappUrl, "_blank");
+        });
+    }
+    
+    // Instagram Share
+    if (shareInstagram) {
+        shareInstagram.addEventListener("click", () => {
+            // Instagram tidak memiliki share API built-in, jadi buka Instagram profile/feed
+            const instagramUrl = `https://www.instagram.com/`;
+            window.open(instagramUrl, "_blank");
+            // Tampilkan alert untuk manual share
+            alert(`Bagikan URL ini di Instagram Story atau DM:\n\n${pageUrl}`);
+        });
+    }
+})();
+
+
+// -- 12. Letter Reveal Functionality ------------------------------
+(function initLetterReveal() {
+    const letterCard = document.getElementById("letter-card");
+    const letterSealed = document.getElementById("letter-sealed");
+    const letterContent = document.getElementById("letter-content");
+    const revealBtn = document.getElementById("letter-reveal-btn");
+    const closeBtn = document.getElementById("letter-close-btn");
+    
+    if (!revealBtn || !closeBtn || !letterSealed || !letterContent) return;
+    
+    revealBtn.addEventListener("click", () => {
+        letterSealed.style.display = "none";
+        letterContent.style.display = "block";
+        letterCard.style.transform = "scale(1.02)";
+    });
+    
+    closeBtn.addEventListener("click", () => {
+        letterContent.style.display = "none";
+        letterSealed.style.display = "block";
+        letterCard.style.transform = "scale(1)";
+    });
+})();
+

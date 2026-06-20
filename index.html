@@ -32,12 +32,65 @@
             <div class="hero-hearts">
                 <span>💕</span><span>🌸</span><span>💕</span>
             </div>
-            <a href="#countdown" class="hero-btn">Lihat Countdown ↓</a>
+            <button class="hero-btn" id="hero-btn">💌 Buka Kejutan ↓</button>
         </div>
-        <!-- Floating petals -->
-        <div class="petals" id="petals"></div>
-    </section>
-    <!-- ⏳ Countdown Section -->
+         <!-- Floating petals -->
+         <div class="petals" id="petals"></div>
+     </section>
+     <!-- 👩‍🎤 Carmen Profile Section -->
+     <section class="profile-section" id="profile">
+         <div class="section-header">
+             <h2 class="section-title">👑 Tentang Carmen</h2>
+             <p class="section-sub">Mengenal lebih dekat sayang ku</p>
+         </div>
+         <div class="profile-container">
+             <div class="profile-image">
+                 <img src="carmen hearts2hearts icon.jpg" alt="Carmen Profile" />
+             </div>
+             <div class="profile-content">
+                 <h3 class="profile-name">Nyoman Ayu Carmenita</h3>
+                 <p class="profile-stage-name">~ Carmen (카르멘) ~</p>
+                 
+                 <div class="profile-info">
+                     <div class="info-item">
+                         <span class="info-label">🎂 Tanggal Lahir</span>
+                         <span class="info-value">28 Maret 2006</span>
+                     </div>
+                     <div class="info-item">
+                         <span class="info-label">📍 Tempat Lahir</span>
+                         <span class="info-value">Denpasar, Bali, Indonesia</span>
+                     </div>
+                     <div class="info-item">
+                         <span class="info-label">🌍 Kewarganegaraan</span>
+                         <span class="info-value">Indonesia</span>
+                     </div>
+                     <div class="info-item">
+                         <span class="info-label">♈ Zodiak</span>
+                         <span class="info-value">Aries</span>
+                     </div>
+                     <div class="info-item">
+                         <span class="info-label">🎤 Posisi</span>
+                         <span class="info-value">Vocalist / Main Vocalist</span>
+                     </div>
+                     <div class="info-item">
+                         <span class="info-label">💖 Warna Favorit</span>
+                         <span class="info-value">Pink</span>
+                     </div>
+                 </div>
+                 
+                 <div class="profile-skills">
+                     <h4>Keahlian</h4>
+                     <div class="skills-list">
+                         <span class="skill-tag">🎵 Menyanyi</span>
+                         <span class="skill-tag">🎤 Rap</span>
+                         <span class="skill-tag">🎹 Piano</span>
+                         <span class="skill-tag">🎸 Gitar</span>
+                     </div>
+                 </div>
+             </div>
+         </div>
+     </section>
+     <!-- ⏳ Countdown Section -->
     <section class="countdown-section" id="countdown">
         <div class="section-header">
             <h2 class="section-title">⏳ Countdown Ulang Tahunmu</h2>
@@ -72,21 +125,101 @@
     <section class="letter-section" id="letter">
         <div class="letter-envelope">
             <div class="envelope-top"></div>
-            <div class="letter-card">
+            <div class="letter-card" id="letter-card">
                 <div class="letter-icon">💌</div>
                 <h2 class="letter-title">Surat Cintaku Untukmu</h2>
-                <p class="letter-body">
-                    Sayangku,<br /><br />
-                    Di hari yang sangat istimewa ini, aku ingin kamu tahu betapa berartinya dirimu
-                    bagiku. Setiap hari bersamamu adalah petualangan yang tak terlupakan — dari tawa
-                    kecil kita hingga pelukan hangat yang selalu membuatku merasa aman.<br /><br />
-                    Kamu adalah warna terbaik dalam hidupku. Kamu adalah alasan aku bangun setiap
-                    pagi dengan senyuman. Kamu adalah rumah tempat hatiku selalu pulang.<br /><br />
-                    Selamat ulang tahun, cintaku. Semoga semua mimpimu terwujud, semua harapanmu
-                    terkabul, dan semoga kamu selalu bahagia — hari ini dan selamanya.<br /><br />
-                    <em>Dengan seluruh cintaku,</em><br />
-                    <strong>💖 Pasanganmu</strong>
-                </p>
+                
+                <!-- Sealed state -->
+                <div class="letter-sealed" id="letter-sealed">
+                    <div class="seal-icon">🔐</div>
+                    <p class="seal-text">Surat ini disegel dengan cinta...</p>
+                    <button class="letter-reveal-btn" id="letter-reveal-btn">💕 Buka Surat Cintaku</button>
+                </div>
+                
+                <!-- Revealed state -->
+                <div class="letter-content" id="letter-content" style="display: none;">
+                    <p class="letter-body">
+                        Sayangku,<br /><br />
+                        Di hari yang sangat istimewa ini, aku ingin kamu tahu betapa berartinya dirimu
+                        bagiku. Setiap hari bersamamu adalah petualangan yang tak terlupakan — dari tawa
+                        kecil kita hingga pelukan hangat yang selalu membuatku merasa aman.<br /><br />
+                        Kamu adalah warna terbaik dalam hidupku. Kamu adalah alasan aku bangun setiap
+                        pagi dengan senyuman. Kamu adalah rumah tempat hatiku selalu pulang.<br /><br />
+                        Selamat ulang tahun, cintaku. Semoga semua mimpimu terwujud, semua harapanmu
+                        terkabul, dan semoga kamu selalu bahagia — hari ini dan selamanya.<br /><br />
+                        <em>Dengan seluruh cintaku,</em><br />
+                        <strong>💖 Pasanganmu</strong>
+                    </p>
+                    <button class="letter-close-btn" id="letter-close-btn">📪 Tutup Surat</button>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- 💫 Memory Timeline Section -->
+    <section class="timeline-section" id="timeline">
+        <div class="section-header">
+            <h2 class="section-title">💫 Perjalanan Cinta Kita</h2>
+            <p class="section-sub">Setiap momen adalah milestone indah dalam cerita kita</p>
+        </div>
+        <div class="timeline-container">
+            <div class="timeline-item left">
+                <div class="timeline-marker"><div class="timeline-dot"></div></div>
+                <div class="timeline-card">
+                    <div class="timeline-icon">📱</div>
+                    <h3 class="timeline-title">First Chat</h3>
+                    <p class="timeline-date">15 Januari 2024</p>
+                    <p class="timeline-description">Ku lihat profil cantikmu di Instagram... langsung jatuh hati 😍 Deg-degan setengah mati pas mau chat pertama kali. Siapa kira ini bakal jadi awal cerita terindah? 💕</p>
+                </div>
+            </div>
+
+            <div class="timeline-item right">
+                <div class="timeline-marker"><div class="timeline-dot"></div></div>
+                <div class="timeline-card">
+                    <div class="timeline-icon">☕</div>
+                    <h3 class="timeline-title">First Date</h3>
+                    <p class="timeline-date">20 Februari 2024</p>
+                    <p class="timeline-description">Kita ketemu di kafe favorit. Aku gugup setengah mati, pesan kopi tapi lupa minum 😅 Tapi saat kamu tersenyum, semua gugup hilang. Itu hari terbaik aku! 🌟</p>
+                </div>
+            </div>
+
+            <div class="timeline-item left">
+                <div class="timeline-marker"><div class="timeline-dot"></div></div>
+                <div class="timeline-card">
+                    <div class="timeline-icon">🎂</div>
+                    <h3 class="timeline-title">First Birthday Together</h3>
+                    <p class="timeline-date">28 Maret 2024</p>
+                    <p class="timeline-description">Aku bawain kue dan surprise dengan lilin berbentuk hati 💖 Kamu nangis bahagia (dan aku ketahuan tidur cuma 2 jam untuk persiapan hehe). Worth it banget melihat senyuman itu! 🥺✨</p>
+                </div>
+            </div>
+
+            <div class="timeline-item right">
+                <div class="timeline-marker"><div class="timeline-dot"></div></div>
+                <div class="timeline-card">
+                    <div class="timeline-icon">🎬</div>
+                    <h3 class="timeline-title">Movie Marathon Night</h3>
+                    <p class="timeline-date">14 Mei 2024</p>
+                    <p class="timeline-description">Tonton film thriller sampai ketakutan 👻 Kamu terus pegang tanganku sepanjang film. Di adegan seram, kamu langsung terpindah duduk lebih dekat. Best movie experience ever! 🍿💕</p>
+                </div>
+            </div>
+
+            <div class="timeline-item left">
+                <div class="timeline-marker"><div class="timeline-dot"></div></div>
+                <div class="timeline-card">
+                    <div class="timeline-icon">🌙</div>
+                    <h3 class="timeline-title">Midnight Talks</h3>
+                    <p class="timeline-date">22 Juni 2024</p>
+                    <p class="timeline-description">Kita ngobrol sampai fajar di balkon sambil lihat bintang ✨ Membicarakan mimpi, masa depan, dan rencana indah bersama. Saat itu aku tahu... kamu adalah "the one" 💭💖</p>
+                </div>
+            </div>
+
+            <div class="timeline-item right">
+                <div class="timeline-marker"><div class="timeline-dot"></div></div>
+                <div class="timeline-card">
+                    <div class="timeline-icon">🎊</div>
+                    <h3 class="timeline-title">One Year Anniversary</h3>
+                    <p class="timeline-date">20 Juni 2025</p>
+                    <p class="timeline-description">Satu tahun bersama! 🎉 Dari first chat yang gugup sampai momen spesial ini... setiap hari bersama adalah hadiah. Ini baru permulaan dari cerita indah yang akan kita tulis selamanya 💕✨</p>
+                </div>
             </div>
         </div>
     </section>
@@ -137,11 +270,12 @@
         <!-- Lightbox -->
         <div class="lightbox" id="lightbox">
             <div class="lightbox-overlay" id="lightbox-overlay"></div>
-            <div class="lightbox-content">
-                <button class="lightbox-close" id="lightbox-close">✕</button>
-                <img class="lightbox-img" id="lightbox-img" src="" alt="" />
-                <div class="lightbox-caption" id="lightbox-caption"></div>
-            </div>
+        <div class="lightbox-content">
+            <button class="lightbox-close" id="lightbox-close">✕</button>
+            <img class="lightbox-img" id="lightbox-img" src="" alt="" />
+            <div class="lightbox-caption" id="lightbox-caption"></div>
+            <div class="lightbox-counter" id="lightbox-counter">1 / 6</div>
+        </div>
         </div>
     </section>
     <!-- 🎵 Wishes Section -->
@@ -174,14 +308,29 @@
             </div>
         </div>
     </section>
-    <!-- 🎊 Footer -->
-    <footer class="footer">
-        <div class="footer-hearts">
-            <span>💖</span><span>🎂</span><span>💖</span>
-        </div>
-        <p class="footer-text">Dibuat dengan <span class="heart-beat">💗</span> khusus untukmu</p>
-        <p class="footer-year">© 2026 — Selalu untukmu, selamanya 🌹</p>
-    </footer>
+     <!-- 🎊 Footer -->
+     <footer class="footer">
+         <div class="footer-hearts">
+             <span>💖</span><span>🎂</span><span>💖</span>
+         </div>
+         <p class="footer-text">Dibuat dengan <span class="heart-beat">💗</span> khusus untukmu</p>
+         <div class="footer-logo">
+             <img src="logo-va.png" alt="VA Logo" class="va-logo" />
+         </div>
+         <!-- Share Buttons -->
+         <div class="share-buttons">
+             <p class="share-label">Bagikan kebahagiaan ini:</p>
+             <div class="share-container">
+                 <button class="share-btn share-whatsapp" id="share-whatsapp" aria-label="Share on WhatsApp">
+                     <span>💬</span> WhatsApp
+                 </button>
+                 <button class="share-btn share-instagram" id="share-instagram" aria-label="Share on Instagram">
+                     <span>📸</span> Instagram
+                 </button>
+             </div>
+         </div>
+         <p class="footer-year">© 2026 — Selalu untukmu, selamanya 🌹</p>
+     </footer>
     <!-- 🎊 Birthday Popup (appears on load) -->
     <div class="popup-overlay" id="popup-overlay">
         <div class="popup-card" id="popup-card">
@@ -195,14 +344,14 @@
     <!-- 🎵 Floating Music Player -->
     <div class="music-player" id="music-player">
         <audio id="bg-audio" loop preload="none">
-            <source src="https://musik.groovite.id/file/MusikGS/1777016194-backstreet_boys_-_shape_of_my_heart__official_hd_video___mp3cut.net_.mp3" type="audio/mpeg" />
+            <source src="https://musik.groovite.id/file/MusikGS/1781922567-ssstik.io_1781922560695.mp3" type="audio/mpeg" />
         </audio>
         <div class="music-vinyl" id="music-vinyl">
             <span class="music-note">🎵</span>
         </div>
         <div class="music-info">
-            <div class="music-title">Shape of My Heart</div>
-            <div class="music-artist">Backstreet Boys</div>
+            <div class="music-title">Lagu Spesial</div>
+            <div class="music-artist">Untuk Sayang 💕</div>
             <div class="music-progress-wrap">
                 <div class="music-progress-bar">
                     <div class="music-progress-fill" id="music-progress-fill"></div>
@@ -222,3 +371,4 @@
 </body>
 
 </html>
+
