@@ -2,6 +2,13 @@
    script.js — Birthday Website Interactive Logic
    ===================================================== */
 "use strict";
+
+// Set absolute OG URL for social media previews
+(function setOgUrl() {
+    const ogUrl = document.getElementById("og-url");
+    if (ogUrl) ogUrl.setAttribute("content", window.location.href);
+})();
+
 // ─────────────────────────────────────────────────────
 //  ✏️  CUSTOMIZATION — Edit these values to personalise
 // ─────────────────────────────────────────────────────
