@@ -189,12 +189,15 @@ if (nameEl) nameEl.textContent = PARTNER_NAME;
     revealEls.forEach((el) => observer.observe(el));
 })();
 
-// ── 7. Popup on Load ─────────────────────────────────
-setTimeout(() => {
+// ── 7. Popup on Load & Music Integration ─────────────────────────────────
+(function initPopupAndMusic() {
     const overlay    = document.getElementById("popup-overlay");
     const btn        = document.getElementById("popup-btn");
     const confettiEl = document.getElementById("popup-confetti");
+    const audio      = document.getElementById("bg-audio");
+    
     if (!overlay || !btn) return;
+    
     // Create confetti inside popup
     const confettiChars = ["🎊", "✨", "🌟", "💫", "🎉", "💕", "🌸"];
     for (let i = 0; i < 20; i++) {
@@ -212,17 +215,38 @@ setTimeout(() => {
     `;
         if (confettiEl) confettiEl.appendChild(span);
     }
+    
     // Close button click handler
     btn.onclick = function() {
         overlay.classList.add("hidden");
+        // Trigger music player to play after popup closes
+        if (audio) {
+            setTimeout(() => {
+                const musicBtn = document.getElementById("music-btn");
+                if (musicBtn) {
+                    // Trigger the music player's click handler
+                    musicBtn.click();
+                }
+            }, 300);
+        }
     };
+    
     // Also close on overlay click (outside card)
     overlay.onclick = function(e) {
         if (e.target === overlay) {
             overlay.classList.add("hidden");
+            // Trigger music player to play after popup closes
+            if (audio) {
+                setTimeout(() => {
+                    const musicBtn = document.getElementById("music-btn");
+                    if (musicBtn) {
+                        musicBtn.click();
+                    }
+                }, 300);
+            }
         }
     };
-}, 100);
+})();
 
 // ── 8. Celebration (fires on birthday) ───────────────
 function launchCelebration() {
@@ -257,6 +281,9 @@ function launchCelebration() {
             }
         });
     };
+    window.addEventListener("scroll", onScroll);
+})();
+
 // ── 10. Music Player ─────────────────────────────────
 (function initMusicPlayer() {
     const audio       = document.getElementById("bg-audio");
@@ -272,29 +299,39 @@ function launchCelebration() {
 
     if (!audio || !btn) return;
 
-    let isPlaying = false;
-
     function formatTime(sec) {
         const m = Math.floor(sec / 60);
         const s = Math.floor(sec % 60);
         return `${m}:${String(s).padStart(2, "0")}`;
     }
 
-    function setPlaying(play) {
-        isPlaying = play;
-        if (play) {
-            audio.play();
-            icon.textContent = "⏸";
-            vinyl.classList.add("spinning");
-        } else {
-            audio.pause();
+    function updateUI() {
+        // Sinkronisasi UI dengan state audio sebenarnya
+        if (audio.paused) {
             icon.textContent = "▶";
             vinyl.classList.remove("spinning");
+        } else {
+            icon.textContent = "⏸";
+            vinyl.classList.add("spinning");
         }
     }
 
-    // Auto-play on first user interaction
-    btn.addEventListener("click", () => setPlaying(!isPlaying));
+    function togglePlayPause() {
+        if (audio.paused) {
+            audio.play().catch(err => console.log('Play error:', err));
+        } else {
+            audio.pause();
+        }
+        // Update UI setelah toggle
+        setTimeout(updateUI, 50);
+    }
+
+    // Play/Pause toggle on button click
+    btn.addEventListener("click", togglePlayPause);
+
+    // Update UI saat audio state berubah
+    audio.addEventListener("play", updateUI);
+    audio.addEventListener("pause", updateUI);
 
     // Progress bar
     audio.addEventListener("timeupdate", () => {
@@ -323,11 +360,6 @@ function launchCelebration() {
         toggleBtn.classList.remove("visible");
     });
 
-    // Auto-play after popup is dismissed (user gesture)
-    const popupBtn = document.getElementById("popup-btn");
-    if (popupBtn) {
-        popupBtn.addEventListener("click", () => {
-            setTimeout(() => setPlaying(true), 500);
-        });
-    }
+    // Initial UI update
+    updateUI();
 })();

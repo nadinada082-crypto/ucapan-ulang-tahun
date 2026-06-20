@@ -219,35 +219,6 @@
     <button class="music-toggle" id="music-toggle" aria-label="Buka music player">🎵</button>
 
     <script src="script.js"></script>
-    <script>
-        // Popup button initialization (inline for reliability)
-        document.addEventListener('DOMContentLoaded', function() {
-            const overlay = document.getElementById('popup-overlay');
-            const btn = document.getElementById('popup-btn');
-            const audio = document.getElementById('bg-audio');
-            const icon = document.getElementById('music-icon');
-            const vinyl = document.getElementById('music-vinyl');
-            
-            if (btn) {
-                btn.onclick = function() {
-                    overlay.classList.add('hidden');
-                    // Autoplay music when button is clicked
-                    if (audio) {
-                        audio.play().catch(err => console.log('Autoplay blocked:', err));
-                        if (icon) icon.textContent = "⏸";
-                        if (vinyl) vinyl.classList.add('spinning');
-                    }
-                };
-            }
-            if (overlay) {
-                overlay.onclick = function(e) {
-                    if (e.target === overlay) {
-                        overlay.classList.add('hidden');
-                    }
-                };
-            }
-        });
-    </script>
 </body>
 
 </html>
