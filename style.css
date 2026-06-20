@@ -1670,7 +1670,6 @@ body {
     backdrop-filter: blur(20px);
     box-shadow: 0 8px 40px rgba(255, 77, 141, .25), 0 2px 12px rgba(0, 0, 0, .6);
     transition: transform .35s cubic-bezier(.34, 1.56, .64, 1), opacity .3s;
-    animation: slideInPlayer .6s cubic-bezier(.34, 1.56, .64, 1) .8s both;
     max-width: 320px;
 }
 
@@ -1686,9 +1685,7 @@ body {
 }
 
 .music-player.hidden {
-    transform: translateY(120px);
-    opacity: 0;
-    pointer-events: none;
+    display: none;
 }
 
 /* Vinyl disc */

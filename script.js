@@ -70,6 +70,11 @@ const BIRTHDAY_DATE = "2026-07-20T00:00:00";
             unlockScroll();
             document.removeEventListener("wheel", preventScroll);
             document.removeEventListener("touchmove", preventScroll);
+            // Show music toggle after clicking hero button
+            const musicToggle = document.getElementById("music-toggle");
+            if (musicToggle) {
+                musicToggle.classList.add("visible");
+            }
             // Smooth scroll to profile section
             setTimeout(() => {
                 const profileSection = document.getElementById("profile");
@@ -338,9 +343,17 @@ if (nameEl) nameEl.textContent = PARTNER_NAME;
         if (confettiEl) confettiEl.appendChild(span);
     }
     
+    function showMusicToggle() {
+        const musicToggle = document.getElementById("music-toggle");
+        if (musicToggle) {
+            musicToggle.classList.add("visible");
+        }
+    }
+
     // Close button click handler
     btn.onclick = function() {
         overlay.classList.add("hidden");
+        showMusicToggle();
         // Trigger music player to play after popup closes
         if (audio) {
             setTimeout(() => {
@@ -357,6 +370,7 @@ if (nameEl) nameEl.textContent = PARTNER_NAME;
     overlay.onclick = function(e) {
         if (e.target === overlay) {
             overlay.classList.add("hidden");
+            showMusicToggle();
             // Trigger music player to play after popup closes
             if (audio) {
                 setTimeout(() => {
